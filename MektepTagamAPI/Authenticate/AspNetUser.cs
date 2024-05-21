@@ -20,7 +20,6 @@ namespace MektepTagamAPI.Authentication
         [StringLength(12)]
         public string? IndividualNumber { get; set; }
         public bool? IsDeleted { get; set; } = false;
-        public ICollection<CardCode> CardCodes { get; set; }
         public string FullName
         {
             get
@@ -30,7 +29,6 @@ namespace MektepTagamAPI.Authentication
         }
         public AspNetUser()
         {
-            CardCodes = new List<CardCode>();
         }
     }
 }

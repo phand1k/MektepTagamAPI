@@ -49,12 +49,6 @@ namespace MektepTagamAPI.Controllers
             defaultUser.OrganizationId = organization.Id;
 
             await _context.AspNetUsers.AddAsync(defaultUser);
-            Dish dish = new Dish();
-            dish.Description = "Стандартное блюдо, которое создается автоматически";
-            dish.Name = "Default dish";
-            dish.Price = 1.0;
-            dish.OrganizationId = organization.Id;
-            await _context.Dishes.AddAsync(dish);
 
             await _context.SaveChangesAsync();
             return Ok(new Response { Status = "Success", Message = "Organization created successfully!" });

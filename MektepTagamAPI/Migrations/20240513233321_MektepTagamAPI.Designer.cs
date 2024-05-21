@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MektepTagamAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240421012357_MektepTagamAPI")]
+    [Migration("20240513233321_MektepTagamAPI")]
     partial class MektepTagamAPI
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -177,6 +177,32 @@ namespace MektepTagamAPI.Migrations
                     b.ToTable("CardCodes");
                 });
 
+            modelBuilder.Entity("MektepTagamAPI.Models.CashRegisterShift", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AspNetUserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateOfClose")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateOfOpen")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool?>("IsClosed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsOpened")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CashRegisterShift");
+                });
+
             modelBuilder.Entity("MektepTagamAPI.Models.Dish", b =>
                 {
                     b.Property<Guid>("Id")
@@ -217,11 +243,17 @@ namespace MektepTagamAPI.Migrations
                     b.Property<Guid?>("CardCodeId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("CashRegisterShiftId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime?>("DateOfCreatedTransaction")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("DishId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool?>("IsAccepted")
+                        .HasColumnType("bit");
 
                     b.Property<bool?>("IsDeleted")
                         .HasColumnType("bit");
@@ -232,6 +264,8 @@ namespace MektepTagamAPI.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CardCodeId");
+
+                    b.HasIndex("CashRegisterShiftId");
 
                     b.HasIndex("DishId");
 
@@ -412,6 +446,10 @@ namespace MektepTagamAPI.Migrations
                         .WithMany()
                         .HasForeignKey("CardCodeId");
 
+                    b.HasOne("MektepTagamAPI.Models.CashRegisterShift", "CashRegisterShift")
+                        .WithMany("Transactions")
+                        .HasForeignKey("CashRegisterShiftId");
+
                     b.HasOne("MektepTagamAPI.Models.Dish", "Dish")
                         .WithMany("Transactions")
                         .HasForeignKey("DishId");
@@ -421,6 +459,8 @@ namespace MektepTagamAPI.Migrations
                         .HasForeignKey("OrganizationId");
 
                     b.Navigation("CardCode");
+
+                    b.Navigation("CashRegisterShift");
 
                     b.Navigation("Dish");
 
@@ -491,6 +531,11 @@ namespace MektepTagamAPI.Migrations
 
                     b.Navigation("Dishes");
 
+                    b.Navigation("Transactions");
+                });
+
+            modelBuilder.Entity("MektepTagamAPI.Models.CashRegisterShift", b =>
+                {
                     b.Navigation("Transactions");
                 });
 

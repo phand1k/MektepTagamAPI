@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using MektepTagamAPI.Authentication;
 using MektepTagamAPI.Authenticate;
 using MektepTagamAPI.Models;
+using ApiAvtoMigNew.Models;
 
 namespace MektepTagamAPI.Data
 {
@@ -13,11 +14,10 @@ namespace MektepTagamAPI.Data
         {
 
         }
+        public DbSet<Car> Cars { get; set; }
+        public DbSet<ModelCar> ModelCars { get; set; }
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<AspNetUser> AspNetUsers { get; set; }
-        public DbSet<CardCode> CardCodes { get; set; }
-        public DbSet<Transaction> Transactions { get; set; }
-        public DbSet<Dish> Dishes { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

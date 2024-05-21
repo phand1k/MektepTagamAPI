@@ -24,6 +24,22 @@ namespace MektepTagamAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CashRegisterShift",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AspNetUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateOfOpen = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateOfClose = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsOpened = table.Column<bool>(type: "bit", nullable: true),
+                    IsClosed = table.Column<bool>(type: "bit", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CashRegisterShift", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Organizations",
                 columns: table => new
                 {
@@ -240,7 +256,9 @@ namespace MektepTagamAPI.Migrations
                     OrganizationId = table.Column<int>(type: "int", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: true),
                     DateOfCreatedTransaction = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DishId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    DishId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsAccepted = table.Column<bool>(type: "bit", nullable: true),
+                    CashRegisterShiftId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -249,6 +267,11 @@ namespace MektepTagamAPI.Migrations
                         name: "FK_Transactions_CardCodes_CardCodeId",
                         column: x => x.CardCodeId,
                         principalTable: "CardCodes",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Transactions_CashRegisterShift_CashRegisterShiftId",
+                        column: x => x.CashRegisterShiftId,
+                        principalTable: "CashRegisterShift",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Transactions_Dishes_DishId",
@@ -327,6 +350,11 @@ namespace MektepTagamAPI.Migrations
                 column: "CardCodeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Transactions_CashRegisterShiftId",
+                table: "Transactions",
+                column: "CashRegisterShiftId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Transactions_DishId",
                 table: "Transactions",
                 column: "DishId");
@@ -362,6 +390,9 @@ namespace MektepTagamAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "CardCodes");
+
+            migrationBuilder.DropTable(
+                name: "CashRegisterShift");
 
             migrationBuilder.DropTable(
                 name: "Dishes");

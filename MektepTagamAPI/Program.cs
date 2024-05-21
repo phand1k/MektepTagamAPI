@@ -9,6 +9,10 @@ using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Models;
 using MektepTagamAPI.Data;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using MektepTagamAPI.Services.Interfaces;
+using MektepTagamAPI.Repositories.Implementations;
+using MektepTagamAPI.Repositories.Interfaces;
+using MektepTagamAPI.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -43,12 +47,14 @@ builder.Services.AddSwaggerGen(opt =>
     });
 });
 // функционал, который позволяет добавить jwt токен для авторизации
-
+builder.Services.AddScoped<ICarRepository, CarRepository>();
+builder.Services.AddScoped<ICarService, CarService>();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddIdentity<AspNetUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.Password.RequiredLength = 6; // Минимальная длина пароля

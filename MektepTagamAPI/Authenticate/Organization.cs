@@ -21,15 +21,9 @@ namespace MektepTagamAPI.Authentication
         public bool? IsDeleted { get; set; } = false;
         [JsonIgnore]
         public ICollection<AspNetUser>? AspNetUsers { get; set; }
-        public ICollection<CardCode> CardCodes { get; set; }
-        public ICollection<Dish> Dishes { get; set; }
-        public ICollection<Transaction> Transactions { get; set; }
         public Organization()
         {
             AspNetUsers = new List<AspNetUser>();
-            CardCodes = new List<CardCode>();
-            Dishes = new List<Dish>();
-            Transactions = new List<Transaction>();
         }
     }
 }

@@ -123,11 +123,7 @@ namespace APIAvtoMig.Controllers
             if (checkOrganizationExists != null)
             {
                 user.OrganizationId = checkOrganizationExists.Id;
-                CardCode cardCode = new CardCode();
-                cardCode.OrganizationId = user.OrganizationId;
-                cardCode.AspNetUserId = user.Id;
-                cardCode.Code = user.Id;
-                await context.CardCodes.AddAsync(cardCode);
+
                 var result = await _userManager.CreateAsync(user, model.Password);
                 await _userManager.AddToRoleAsync(user, "Пользователь");
 
